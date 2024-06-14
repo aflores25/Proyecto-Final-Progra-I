@@ -29,8 +29,15 @@ public class PerfilEstudiante extends javax.swing.JFrame {
         jTextField1.setText(perfil.nombre);
         jTextField2.setText(perfil.apellido);
         jTextField3.setText(perfil.carne);
-        jTextField4.setText(perfil.nota.toString());
         jPasswordField1.setText(perfil.password);
+
+        Double promedio = 0.0;
+        for (Cursos curso : perfil.cursos) {
+            promedio += perfil.nota.get(curso.nombre);
+        }
+        promedio = promedio / perfil.cursos.size();
+
+        jTextField4.setText(promedio.toString());
 
     }
 
