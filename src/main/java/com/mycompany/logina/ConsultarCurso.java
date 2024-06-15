@@ -4,6 +4,8 @@
  */
 package com.mycompany.logina;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -95,15 +97,15 @@ public class ConsultarCurso extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jButton1)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton2))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,13 +113,16 @@ public class ConsultarCurso extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton1)))
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3))
-                .addGap(30, 30, 30))
+                .addComponent(jButton3)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
@@ -143,7 +148,7 @@ public class ConsultarCurso extends javax.swing.JFrame {
         if (retorno == JFileChooser.APPROVE_OPTION) {
             leer(archivo.getSelectedFile().toPath().toString());
         }
-        
+
         actualizarTabla();
 
 
@@ -182,7 +187,16 @@ public class ConsultarCurso extends javax.swing.JFrame {
                 c.horaf = (String) curso.get("hora_fin");
                 c.profesor = (String) curso.get("profesor");
                 
+                for(Profesor p: LoginA.profesores){
+                    if(p.usuario.equals(c.profesor)){
+                        p.cursos.add(c);
+                        
+                    }else{}
+                    
+                }
+
                 LoginA.cursos.add(c);
+                
             }
 
         } catch (Exception e) {
@@ -190,9 +204,9 @@ public class ConsultarCurso extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
-    private void actualizarTabla(){
-        
+
+    private void actualizarTabla() {
+
         DefaultTableModel data = new DefaultTableModel(new String[]{"ID", "Nombre", "Sección", "Fecha Inicio", "Fecha Fin", "Hora Inicio", "Hora Fin", "Profesor"}, LoginA.cursos.size());
         jTable1.setModel(data);
 
